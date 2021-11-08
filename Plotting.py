@@ -1,3 +1,4 @@
+#Part 1
 #Visualize raw data
 #Not done with biexponential fit yet
 
@@ -71,6 +72,7 @@ plt.savefig('female_and_male_raw.png')
 plt.clf()
 
 
+#Part 2
 #Visualization of distribution fitted data
 
 #Animal 1
