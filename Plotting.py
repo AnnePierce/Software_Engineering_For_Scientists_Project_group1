@@ -4,6 +4,7 @@
 
 import matplotlib.pyplot as plt #Import matplotlib library
 import numpy as np #Import numpy library
+from scipy.optimize import curve_fit #Import non-linear weighted least squares fit from scipy
 
 #Animal 1
 
@@ -78,7 +79,11 @@ plt.clf()
 #Animal 1
 
 
-##Biexpfit
+# Biexponential fitting
+def funct(x):
+    return 2 * np.exp(x)
+y1 = funct(Timein)
+sagesFit1 = curve_fit(funct1, Timemin, y1)
 plt.subplot(2,1,1)
 plt.plot(Timemin, signal1)
 plt.plot(Timemin, sagesFit1)
@@ -110,7 +115,9 @@ plt.clf()
 #sagesFit2 = fit(Time, signal2, 'exp2')
 
 
-##Biexpfit
+##Biexponential fitting
+y2 = funct(Timein)
+sagesFit2 = curve_fit(funct2, Timemin, y2)
 plt.subplot(2,1,1)
 plt.plot(Timemin, signal2)
 plt.plot(Timemin, sagesFit2)
