@@ -12,6 +12,23 @@ fluor_array that is closest to the value for each row in behav_array.
 
 4. area_under_curve: This function will give the mean
 fluroescence for all events of a behavior.
+
+5. behavior_fluor: This function will give the normalized fluorescence
+values during each behavior event.
+
+6. baseline_fluor: This function will give the normalized fluorescence
+values during the baseline period.
+
+7. base_mean: This function will give the mean value of the baseline.
+
+8. baselinestd: This function will give the standard
+deviation of the baseline period.
+
+9. event_z: This function will give the zscore values
+for each value in behavior_fluor.
+
+10. zscpre_max: This function will give the maximum
+zscore value and location of the max zscore.
 """
 
 
@@ -172,7 +189,7 @@ def behavior_fluor(behav_start_loc, timeafter, normsig):
 
 def baseline_fluor(behav_start_loc, behav_stop_loc, normsig, timeprior):
     """
-    Objective: To find the normalized fluorescence value during the behavior.
+    Objective: To find the normalized fluorescence value during the baseline.
 
     Parameters
     ----------
@@ -286,7 +303,7 @@ def event_z(event_fluor, baseline_mean, mean_base_std):
 
 def zscore_max(event_zscores):
     """
-    Objective: To find the max zscore value.
+    Objective: To find the max zscore value and location of the max zscore.
 
     Parameters
     ----------
