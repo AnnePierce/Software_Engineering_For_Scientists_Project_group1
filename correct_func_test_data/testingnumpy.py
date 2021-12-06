@@ -32,7 +32,7 @@ def file2numpy(file_path):
 
     Returns
     -------
-    array : list
+    array: list
         This is a numpy array.
     """
     array = np.loadtxt(file_path, dtype=float)
@@ -41,7 +41,7 @@ def file2numpy(file_path):
 
 def behavior_nearest_loc(fluor_array, behav_array):
     """
-    Objective: Find the array location for the value in fluor_array that 
+    Objective: Find the array location for the value in fluor_array that
     is closest in value to each row in behav_array.
 
     Parameters
@@ -57,7 +57,7 @@ def behavior_nearest_loc(fluor_array, behav_array):
 
     Returns
     -------
-    near_loc : list
+    near_loc: list
         This list of integers contains the array location where the value for
         each row in behav_array is closest in value to that in fluor_array.
     """
@@ -66,8 +66,8 @@ def behavior_nearest_loc(fluor_array, behav_array):
         loc = (np.abs(fluor_array - x)).argmin()
         near_loc.append(loc)
     return near_loc
-        
-        
+
+
 def behavior_nearest_value(fluor_array, behav_array):
     """
     Objective: To find the value in fluor_array that is
@@ -86,7 +86,7 @@ def behavior_nearest_value(fluor_array, behav_array):
 
     Returns
     -------
-    near_value : list
+    near_value: list
         This list of floats contains the value in fluor_array
         that is cloest to each value in behav_array.
     """
@@ -96,6 +96,7 @@ def behavior_nearest_value(fluor_array, behav_array):
         value = n.index(min(n))
         near_value.append(fluor_array[value])
     return near_value
+
 
 def area_under_curve(behav_start_loc, behav_stop_loc, normsig):
     """
@@ -110,15 +111,15 @@ def area_under_curve(behav_start_loc, behav_stop_loc, normsig):
     behav_stop_loc: list
         This list of integers contains the array location
         in norm sig for the stop of a behavior event.
-        
+
     normsig: list
-        This numpy array contains the normalized 
+        This numpy array contains the normalized
         fluroescent values for the green channel.
 
 
     Returns
     -------
-    mean : float
+    mean: float
         This single float is the mean fluorescence value for the behavior.
     """
     if (len(behav_start_loc) != len(behav_stop_loc)):
@@ -135,8 +136,32 @@ def area_under_curve(behav_start_loc, behav_stop_loc, normsig):
 
 
 # below functions are for zscores
-def behavior_fluor(behav_start_loc, behav_stop_loc, normsig):
-    new_list = [x+1 for x in behav_stop_loc]
+def behavior_fluor(behav_start_loc, timeafter, normsig):
+    """
+    Objective: To find the normalized fluorescence value during the behavior.
+
+    Parameters
+    ----------
+    behav_start_loc: list
+        This list of integers contains the array location
+        in norm sig for the start of a behavior event.
+
+    behav_stop_loc: list
+        This list of integers contains the array location
+        in norm sig for the stop of a behavior event.
+
+    normsig: list
+        This numpy array contains the normalized
+        fluroescent values for the green channel.
+
+
+    Returns
+    -------
+    event_fluor: array
+        This array contains the normalized fluorescence
+        values during each behavior event.
+    """
+    new_list = [x+timeafter for x in behav_start_loc]
     num_events = len(behav_start_loc)
     event_fluor = []
     for i in range(num_events):
@@ -146,6 +171,34 @@ def behavior_fluor(behav_start_loc, behav_stop_loc, normsig):
 
 
 def baseline_fluor(behav_start_loc, behav_stop_loc, normsig, timeprior):
+    """
+    Objective: To find the normalized fluorescence value during the behavior.
+
+    Parameters
+    ----------
+    behav_start_loc: list
+        This list of integers contains the array location
+        in norm sig for the start of a behavior event.
+
+    behav_stop_loc: list
+        This list of integers contains the array location
+        in norm sig for the stop of a behavior event.
+
+    normsig: list
+        This numpy array contains the normalized
+        fluroescent values for the green channel.
+
+    timeprior: int
+        An interger that is the idex number of the time period the user
+        wants the baseline to be. Right now its 300 which is 5 seconds.
+
+
+    Returns
+    -------
+    baseline_fluor: array
+        This array contains the normalized fluorescence
+        values for the baseline.
+    """
     new_list = [x-timeprior for x in behav_stop_loc]
     num_events = len(behav_start_loc)
     baseline_fluor = []
@@ -156,13 +209,45 @@ def baseline_fluor(behav_start_loc, behav_stop_loc, normsig, timeprior):
 
 
 def base_mean(baseline_fluor):
+    """
+    Objective: To find the mean of the baseline period.
+
+    Parameters
+    ----------
+    baseline_fluor: array
+        This array contains the normalized fluorescence
+        values for the baseline.
+
+
+    Returns
+    -------
+    baseline_mean: float
+        A single float which is the mean of the baseline.
+    """
     df = pd.DataFrame(baseline_fluor)
     baseline_mean = df.mean()
-    baseline_mean = sum(baseline_mean)/ len(baseline_mean)
+    baseline_mean = sum(baseline_mean)/len(baseline_mean)
     return baseline_mean
 
 
 def baselinestd(baseline_fluor):
+    """
+    Objective: To find the mean standard deviation of the baseline.
+
+    Parameters
+    ----------
+    baseline_fluor: array
+        This array contains the normalized fluorescence
+        values for the baseline.
+
+
+    Returns
+    -------
+    mean_base_std: float
+        A single float which is the mean standard devioation of the baseline
+        This is done by getting the standard deviation of all the baseline
+        events and then taking the mean of all the standard deviations.
+    """
     df = pd.DataFrame(baseline_fluor)
     base_std = df.std()
     mean_base_std = base_std.mean()
@@ -170,6 +255,29 @@ def baselinestd(baseline_fluor):
 
 
 def event_z(event_fluor, baseline_mean, mean_base_std):
+    """
+    Objective: To find the zscores for the fluorescence during each event.
+
+    Parameters
+    ----------
+    event_fluor: array
+        This array contains the normalized fluorescence
+        values during each behavior event.
+
+    baseline_mean: float
+        A single float which is the mean of the baseline.
+
+    mean_base_std: float
+        A single float which is the mean standard devioation of the baseline
+        This is done by getting the standard deviation of all the baseline
+        events and then taking the mean of all the standard deviations.
+
+
+    Returns
+    -------
+    event_zscores: array
+        This array contains the zscores for event.
+    """
     event_zscores = []
     for x in event_fluor:
         event_zscores.append((x - baseline_mean) / mean_base_std)
@@ -177,10 +285,27 @@ def event_z(event_fluor, baseline_mean, mean_base_std):
 
 
 def zscore_max(event_zscores):
+    """
+    Objective: To find the max zscore value.
+
+    Parameters
+    ----------
+    event_zscores: array
+        This array contains the zscores for event.
+
+
+    Returns
+    -------
+    max_zscore: float
+        This float is the max zscore value for the event.
+    """
     df = pd.DataFrame(event_zscores)
-    max_zscore = df.max()
-    max_zscore = max(event_zscores)
-    print(max_zscore)
+    row_means = df.mean(axis=0)
+    row_means = row_means.to_list()
+    max_zscore = max(row_means)
+    index = row_means.index(max_zscore)
+    idx_sec = index/60
+    return max_zscore, idx_sec
 
 
 def main():
@@ -188,51 +313,46 @@ def main():
     behav_start_time_path = "./push_start_time.txt"
     behav_stop_time_path = "./push_stop_time.txt"
     normsig_path = "./sages2ndFit1.txt"
-    
+
     fluor_array = file2numpy(fTimeGreen_path)
-    
+
     behav_start_array = file2numpy(behav_start_time_path)
-    #print(behav_start_array)
+    # print(behav_start_array)
     behav_stop_array = file2numpy(behav_stop_time_path)
-    #print(behav_stop_array)
+    # print(behav_stop_array)
     sages2ndFit = file2numpy(normsig_path)
-    #print(behav_stop_array)
-    
+    # print(behav_stop_array)
+
     behav_start_loc = behavior_nearest_loc(fluor_array, behav_start_array)
-    #print(behav_start_loc)
+    # print(behav_start_loc)
     behav_start_value = behavior_nearest_value(fluor_array, behav_start_array)
-    #print(behav_start_value)
-    
+    # print(behav_start_value)
+
     behav_stop_loc = behavior_nearest_loc(fluor_array, behav_stop_array)
-    #print(behav_stop_loc)
+    # print(behav_stop_loc)
     behav_stop_value = behavior_nearest_value(fluor_array, behav_stop_array)
-    #print(behav_stop_value)
-    
+    # print(behav_stop_value)
+
     auc = area_under_curve(behav_start_loc, behav_stop_loc, sages2ndFit)
-    
-    behavior_fluorescence = behavior_fluor(behav_start_loc, behav_stop_loc,
-                                     sages2ndFit)
+
+    behavior_fluorescence = behavior_fluor(behav_start_loc, 300,
+                                           sages2ndFit)
 
     baseline_fluorescence = baseline_fluor(behav_start_loc, behav_stop_loc,
-                                        sages2ndFit, 300)
+                                           sages2ndFit, 300)
 
     baseline_mean = base_mean(baseline_fluorescence)
 
     baseline_stdev = baselinestd(baseline_fluorescence)
-    
+
     zscore = event_z(behavior_fluorescence, baseline_mean, baseline_stdev)
-    
-    max_zscore = zscore_max(zscore)
 
-#     with open("auc_results.csv", 'a') as file:
-#         file.write(f:"{behavior_start_time} {auc}")
-    
-#     # add z-score function here
-#     with open("peak_zscore_results.csv", 'a') as file:
-#         file.write(f:"{behavior_start_time} {zscore_peak}") # second {} once zscore is integrated into main and you know the output name
+    max_zscore, idx_sec = zscore_max(zscore)
 
-#     with open("peak_zscore_latency_results.csv", 'a') as file:
-#         file.write(f:"{behavior_start_time} {zscore_latency}") # second {} once zscore is integrated into main and you know the output name
-                   
+    # auc, z-score max value, and zscore max value location appended here
+    file = open("peak_zscore_results.csv", 'a')
+    file.write(f"behavior:{behav_start_time_path} auc:{auc} zscore:{max_zscore} max zscore location{idx_sec}")
+
+
 if __name__ == "__main__":
     main()
