@@ -81,13 +81,26 @@ def file_reader(filename):
     fTimeRed = ftime[24:last-2:3]
     fTimeIsosbestic = ftime[25:last-1:3]
     fTimeGreen = ftime[26:last-1:3]
-
-    return fTimeRed, fTimeIsosbestic, fTimeGreen, f1red, f1isosbestic, f1green, f2red, f2isosbestic, f2green
+    
+    # getting Time in minutes
+#     Timemin = fTimeGreen - fTimeGreen[0]
+#     Timemin = Timemin / 60000
+    
+    parsed_data = {'fTimeRed': fTimeRed,
+                   'fTimeIsosbestic': fTimeIsosbestic,
+                   'fTimeGreen': fTimeGreen,
+                   'f1red': f1red,
+                   'f1isosbestic': f1isosbestic,
+                   'f1green': f1green,
+                   'f2red': f2red,
+                   'f2isosbestic': f2isosbestic,
+                   'f2green': f2green}
+    return parsed_data
 
 
 def main():
     raw_data = "/home/jovyan/swefs_group1/correct_test_data/FiberPhoSig2020-08-22T09_00_59.csv"
-    fTimeRed, fTimeIsosbestic, fTimeGreen, f1red, f1isosbestic, f1green, f2red, f2isosbestic, f2green = file_reader(raw_data)
+    parsed_data = file_reader(raw_data)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,5 @@
+behavior:/home/jovyan/swefs_group1/test_data/givesniff_start_time.txt, auc:1.008236524626958, zscore:0.2782022209543809, max zscore location0.65
+behavior:/home/jovyan/swefs_group1/test_data/receivesniff_start_time.txt, auc:0.9991460834900663, zscore:0.7502943163657865, max zscore location4.983333333333333
+behavior:/home/jovyan/swefs_group1/test_data/rear_start_time.txt, auc:0.9953254045882352, zscore:0.6237851014099302, max zscore location4.8
+behavior:/home/jovyan/swefs_group1/test_data/push_start_time.txt, auc:0.9987235282790696, zscore:-0.17157869548107918, max zscore location0.16666666666666666
+behavior:/home/jovyan/swefs_group1/test_data/groomself_start_time.txt, auc:0.9956203845485518, zscore:1.047450603532994, max zscore location2.3666666666666667

@@ -64,8 +64,8 @@ def plot_male_raw(fTimeGreen,f2green,fTimeIsosbestic,f2isosbestic,fTimeRed,f2red
 #Green overlay animals
 def plot_female_and_male_raw(fTimeGreen,f1green,f2green):
     
-    plt.plot(fTimeGreen,f1green-mean(f1green))
-    plt.plot(fTimeGreen,f2green-mean(f2green))
+    plt.plot(fTimeGreen,f1green-np.mean(f1green))
+    plt.plot(fTimeGreen,f2green-np.mean(f2green))
     plt.xlabel('Time (min)')
     plt.ylabel('Green (adjusted y intercept)')
     
@@ -186,3 +186,16 @@ def plot_female_and_male_norm(Timemin, signal1, signal2):
     plt.clf()
     return 'female_and_male_norm.png'
 
+
+def main(fTimeRed, fTimeIsosbestic, fTimeGreen, f1red, f1isosbestic, f1green, f2red, f2isosbestic, f2green):
+    
+    plot_female_raw(fTimeGreen,f1green,fTimeIsosbestic,f1isosbestic,fTimeRed,f1red)
+    plot_male_raw(fTimeGreen,f2green,fTimeIsosbestic,f2isosbestic,fTimeRed,f2red)
+#     plot_female_and_male_raw(fTimeGreen,f1green,f2green)
+#     plot_female_norm(Timemin,signal1)
+#     plot_male_norm(Timemin,signal2)
+#     plot_female_and_male_norm(Timemin, signal1, signal2)
+
+
+if __name__ == "__main__":
+    main()
