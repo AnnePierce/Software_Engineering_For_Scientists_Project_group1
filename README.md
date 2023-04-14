@@ -1,5 +1,5 @@
 # swefs_group1
-Software to analyze fiber photometry and behavior data
+Software to analyze fiber photometry and behavior data from Anne Pierce's thesis project in Donaldson Lab
 
 # Main
 Created the comprehensive python file
