@@ -1,5 +1,5 @@
 # swefs_group1
-Software to analyze fiber photometry and behavior data from Anne Pierce's thesis project in Donaldson Lab
+Software to analyze fiber photometry and behavior data from Anne Pierce's thesis project in Donaldson Lab. The results file shows an example of the analysis output that can be generated from this repo.
 
 # Caroline's contributions 
 ## Caroline_Parsing_Progress
