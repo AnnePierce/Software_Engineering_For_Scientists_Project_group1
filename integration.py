@@ -7,8 +7,8 @@ import allfunctions
 
 def main():
     raw_data = "/home/jovyan/swefs_group1/correct_test_data/FiberPhoSig2020-08-22T09_00_59.csv"
-    fTimeGreen = "/home/jovyan/swefs_group1/test_data/fTimeGreen.txt"
-    sages2ndFit1 = "/home/jovyan/swefs_group1/test_data/sages2ndFit1.txt"
+    fTimeGreen = "/home/jovyan/swefs_group1/correct_func_test_data/fTimeGreen.txt"
+    sages2ndFit1 = "/home/jovyan/swefs_group1/correct_func_test_data/sages2ndFit1.txt"
     
     parsed_data = parsing.file_reader(raw_data)
 
